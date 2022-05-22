@@ -14,7 +14,7 @@ pipeline {
        
         stage('Deliver') { 
             steps {
-                sh 'node app.js' 
+                sh '/home/jenkins/workspace/pipeline_node_docker_1@tmp/durable-29d688d2/script.sh' 
             }
         }
     }
