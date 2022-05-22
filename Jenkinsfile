@@ -1,20 +1,25 @@
 pipeline {
     agent {
         docker {
-            image 'node:12-alpine' 
-            args '-p 3000:3000' 
+            image 'node:lts-buster-slim'
+            args '-p 3000:3000'
         }
     }
+    environment {
+        CI = 'true'
+    }
     stages {
-        stage('Build') { 
+        stage('Build') {
             steps {
-               sh 'npm install --cache="./cacheNode"'
+                sh 'npm install --cache="./cacheNode"'
             }
         }
-       
-        stage('Deliver') { 
+        
+        stage('Deliver') {
             steps {
-                sh '/home/jenkins/workspace/pipeline_node_docker_1@tmp/durable-29d688d2/script.sh' 
+                sh './jenkins/scripts/deliver.sh'
+                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                sh './jenkins/scripts/kill.sh'
             }
         }
     }
